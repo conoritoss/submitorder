@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMF Conor</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-container {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ff0000;
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      color: #ff0000;
+    }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #ff0000;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Submit Details SMF Conor</h2>
+    <form id="submissionForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter Name" required>
+
+      <label for="paid">Paid?</label>
+      <select id="paid" name="paid">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+
+      <label for="site">Site:</label>
+      <input type="text" id="site" name="site" placeholder="Enter Site Name" required>
+
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" name="amount" placeholder="Enter Amount" required>
+
+      <label for="service">Type of Service:</label>
+      <input type="text" id="service" name="service" placeholder="Enter Type of Service" required>
+
+      <label for="snapchat">Snapchat:</label>
+      <input type="text" id="snapchat" name="snapchat" placeholder="Enter Snapchat" required>
+
+      <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function submitForm() {
+      const name = document.getElementById('name').value;
+      const paid = document.getElementById('paid').value;
+      const site = document.getElementById('site').value;
+      const amount = document.getElementById('amount').value;
+      const service = document.getElementById('service').value;
+      const snapchat = document.getElementById('snapchat').value;
+
+      // Creating the message content for Discord
+      const discordMessage = {
+        content: `**New Submission**\nName: ${name}\nPaid?: ${paid}\nSite: ${site}\nAmount: ${amount}\nType of Service: ${service}\nSnapchat: ${snapchat}`
+      };
+
+      // Webhook URL (replace this with your own Discord webhook URL)
+      const webhookURL = "https://discord.com/api/webhooks/1285663146186375185/Yg7MWP696Y306i9diKQswm6ll2S2FS_RTgIw64xd-YqrDZWwuGz2YAOUZdLG9-Tgl3m4";
+
+      // Sending the message to Discord via webhook
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(discordMessage),
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Form submitted successfully!');
+        } else {
+          alert('There was an error submitting the form.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error submitting the form.');
+      });
+    }
+  </script>
+</body>
+</html>
