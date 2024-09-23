@@ -3,55 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SMF Conor</title>
+  <title>SMF Conor - Admin & User Portal</title>
   <style>
+    /* Global Theme Variables */
+    :root {
+      --primary-color: #ff0000;
+      --secondary-color: #fff;
+      --background-color: #121212;
+      --input-bg-color: #333;
+      --button-bg-color: #ff0000;
+    }
+
+    /* Global Styles */
     body {
-      background-color: #000;
-      color: #fff;
+      background-color: var(--background-color);
+      color: var(--secondary-color);
       font-family: Arial, sans-serif;
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
-    }
-    .form-container {
-      background-color: #1a1a1a;
       padding: 20px;
+    }
+    .container {
+      background-color: #1e1e1e;
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0px 0px 10px #ff0000;
-      width: 300px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+      width: 400px;
+      max-width: 90%;
+      text-align: center;
+      margin-bottom: 20px;
     }
     h2 {
-      text-align: center;
-      color: #ff0000;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      font-size: 24px;
     }
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="password"], input[type="email"], input[type="number"], select {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      background-color: #333;
-      color: #fff;
-      border: 1px solid #ff0000;
+      padding: 12px;
+      margin: 15px 0;
+      background-color: var(--input-bg-color);
+      color: var(--secondary-color);
+      border: 1px solid var(--primary-color);
       border-radius: 5px;
+      font-size: 16px;
     }
     button {
       width: 100%;
-      padding: 10px;
-      background-color: #ff0000;
-      color: #fff;
+      padding: 12px;
+      background-color: var(--button-bg-color);
+      color: var(--secondary-color);
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
     }
     button:hover {
       background-color: #cc0000;
     }
+    .hidden {
+      display: none;
+    }
+    select, label {
+      display: block;
+      width: 100%;
+      margin: 15px 0;
+      color: inherit;
+    }
+    .tab-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .tab {
+      padding: 12px;
+      cursor: pointer;
+      background-color: var(--input-bg-color);
+      border: none;
+      color: var(--secondary-color);
+      border-radius: 5px;
+      width: 22%;
+    }
+    .tab.active {
+      background-color: var(--primary-color);
+    }
+
+    /* Theming Options */
+    .theme-purple {
+      --primary-color: #b19cd9;
+      --background-color: #1a1a1a;
+      --input-bg-color: #444;
+      --button-bg-color: #b19cd9;
+      --secondary-color: #b19cd9;
+    }
+    .theme-red {
+      --primary-color: #ff0000;
+      --background-color: #1a1a1a;
+      --input-bg-color: #333;
+      --button-bg-color: #ff0000;
+      --secondary-color: #fff;
+    }
+    .theme-white {
+      --primary-color: #000;
+      --background-color: #f0f0f0;
+      --input-bg-color: #ddd;
+      --button-bg-color: #000;
+      --secondary-color: #000;
+    }
+    .theme-yellow {
+      --primary-color: #ffd700;
+      --background-color: #222;
+      --input-bg-color: #444;
+      --button-bg-color: #ffd700;
+      --secondary-color: #fff;
+    }
+    .theme-lightblue {
+      --primary-color: #add8e6;
+      --background-color: #001f3f;
+      --input-bg-color: #444;
+      --button-bg-color: #add8e6;
+      --secondary-color: #fff;
+    }
+    .theme-darkblue {
+      --primary-color: #00008b;
+      --background-color: #001;
+      --input-bg-color: #333;
+      --button-bg-color: #00008b;
+      --secondary-color: #fff;
+    }
+    .theme-green {
+      --primary-color: #32cd32;
+      --background-color: #002;
+      --input-bg-color: #444;
+      --button-bg-color: #32cd32;
+      --secondary-color: #fff;
+    }
+    
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        width: 100%;
+        padding: 20px;
+      }
+      button, input, select {
+        font-size: 14px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
-<body>
-  <div class="form-container">
-    <h2>Submit Details SMF Conor</h2>
+<body class="theme-red">
+  <!-- Login/Register Container -->
+  <div class="container" id="authContainer">
+    <h2>Login to Admin/User Portal</h2>
+    <div id="loginForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button onclick="login()">Login</button>
+      <p style="color: #ccc; margin-top: 10px;">Don't have an account? <span style="color: var(--primary-color); cursor: pointer;" onclick="showRegister()">Register</span></p>
+    </div>
+    
+    <div id="registerForm" class="hidden">
+      <input type="text" id="newUsername" placeholder="New Username" required>
+      <input type="email" id="newEmail" placeholder="Email" required>
+      <input type="password" id="newPassword" placeholder="Password" required>
+      <button onclick="register()">Register</button>
+      <p style="color: #ccc; margin-top: 10px;">Already have an account? <span style="color: var(--primary-color); cursor: pointer;" onclick="showLogin()">Login</span></p>
+    </div>
+  </div>
+
+  <!-- Admin/User Panel -->
+  <div class="container hidden" id="adminPanel">
+    <h2 id="panelTitle">Admin Panel</h2>
+    <div class="tab-container">
+      <button class="tab" onclick="showForm()">Submit Order</button>
+      <button class="tab" onclick="showSettings()">Settings</button>
+      <button class="tab hidden" id="adminContactTab" onclick="showContact()">Contact</button>
+      <button class="tab" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Forms -->
+  <div class="container hidden" id="formContainer">
+    <h2>Submit Details</h2>
     <form id="submissionForm">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" placeholder="Enter Name" required>
@@ -78,7 +218,110 @@
     </form>
   </div>
 
+  <!-- Settings -->
+  <div class="container hidden" id="settingsContainer">
+    <h2>Settings</h2>
+    <label for="theme">Choose a Theme:</label>
+    <select id="theme" onchange="changeTheme()">
+      <option value="red">Red</option>
+      <option value="purple">Purple</option>
+      <option value="white">White</option>
+      <option value="yellow">Yellow</option>
+      <option value="lightblue">Light Blue</option>
+      <option value="darkblue">Dark Blue</option>
+      <option value="green">Green</option>
+    </select>
+  </div>
+
+  <!-- Contact (Admin Only) -->
+  <div class="container hidden" id="contactContainer">
+    <h2>Contact </h2>
+    <p>Snap Conormcd0</p>
+    <p></p>
+  </div>
+
   <script>
+    let users = [{ username: 'Conor', password: 'Conor', role: 'admin' }];
+    let currentUser = null;
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (user) {
+        currentUser = user;
+        document.getElementById("authContainer").classList.add("hidden");
+        document.getElementById("adminPanel").classList.remove("hidden");
+        document.getElementById("panelTitle").innerText = user.role === 'admin' ? "Admin Panel" : "User Panel";
+        if (user.role === 'admin') {
+          document.getElementById("adminContactTab").classList.remove("hidden");
+        } else {
+          document.getElementById("adminContactTab").classList.add("hidden");
+        }
+      } else {
+        alert("Invalid username or password");
+      }
+    }
+
+    function register() {
+      const username = document.getElementById("newUsername").value;
+      const email = document.getElementById("newEmail").value;
+      const password = document.getElementById("newPassword").value;
+      const userExists = users.find(u => u.username === username);
+
+      if (userExists) {
+        alert("Username already exists!");
+      } else {
+        users.push({ username, email, password, role: 'user' });
+        alert("Registration successful! You can now log in.");
+        showLogin();
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById("authContainer").classList.remove("hidden");
+      document.getElementById("adminPanel").classList.add("hidden");
+      document.getElementById("formContainer").classList.add("hidden");
+      document.getElementById("settingsContainer").classList.add("hidden");
+      document.getElementById("contactContainer").classList.add("hidden");
+    }
+
+    function showForm() {
+      document.getElementById("formContainer").classList.remove("hidden");
+      document.getElementById("settingsContainer").classList.add("hidden");
+      document.getElementById("contactContainer").classList.add("hidden");
+    }
+
+    function showSettings() {
+      document.getElementById("settingsContainer").classList.remove("hidden");
+      document.getElementById("formContainer").classList.add("hidden");
+      document.getElementById("contactContainer").classList.add("hidden");
+    }
+
+    function showContact() {
+      document.getElementById("contactContainer").classList.remove("hidden");
+      document.getElementById("formContainer").classList.add("hidden");
+      document.getElementById("settingsContainer").classList.add("hidden");
+    }
+
+    function showRegister() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("registerForm").classList.remove("hidden");
+    }
+
+    function showLogin() {
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    function changeTheme() {
+      const selectedTheme = document.getElementById("theme").value;
+      document.body.classList.remove("theme-red", "theme-purple", "theme-white", "theme-yellow", "theme-lightblue", "theme-darkblue", "theme-green");
+      document.body.classList.add(`theme-${selectedTheme}`);
+    }
+
     function submitForm() {
       const name = document.getElementById('name').value;
       const paid = document.getElementById('paid').value;
@@ -87,15 +330,12 @@
       const service = document.getElementById('service').value;
       const snapchat = document.getElementById('snapchat').value;
 
-      // Creating the message content for Discord
       const discordMessage = {
         content: `**New Submission**\nName: ${name}\nPaid?: ${paid}\nSite: ${site}\nAmount: ${amount}\nType of Service: ${service}\nSnapchat: ${snapchat}`
       };
 
-      // Webhook URL (replace this with your own Discord webhook URL)
       const webhookURL = "https://discord.com/api/webhooks/1285663146186375185/Yg7MWP696Y306i9diKQswm6ll2S2FS_RTgIw64xd-YqrDZWwuGz2YAOUZdLG9-Tgl3m4";
 
-      // Sending the message to Discord via webhook
       fetch(webhookURL, {
         method: 'POST',
         headers: {
